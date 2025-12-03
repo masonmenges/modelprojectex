@@ -1,0 +1,56 @@
+# Prefect deployment configuration
+name: model-training-qa-deployment
+version: 1.0.0
+
+# Define project-level settings
+prefect-version: 3.6.4
+
+# Pull step - how to get the code
+pull:
+  - prefect.deployments.steps.git_clone:
+      repository: https://github.com/yourusername/model_project_ex.git
+      branch: main
+
+# Build step - any build processes needed
+build: null
+
+# Push step - where to store the flow code
+push: null
+
+# Deployments
+deployments:
+  - name: model-training-qa
+    version: 1.0.0
+    tags:
+      - ml
+      - training
+      - qa
+    description: "Model training QA flow for training and evaluating ML models"
+
+    # Flow location
+    entrypoint: training/train_model.py:model_training_qa
+
+    # Work pool configuration
+    work_pool:
+      name: default-agent-pool
+      work_queue_name: default
+
+    # Schedule (optional - uncomment to enable)
+    # schedule:
+    #   cron: "0 2 * * *"  # Run daily at 2 AM
+    #   timezone: "America/New_York"
+
+    # Flow parameters with defaults
+    parameters:
+      test_size: 0.2
+      n_samples: 1000
+      n_features: 20
+      n_informative: 15
+      n_redundant: 5
+      n_classes: 2
+      random_state: 42
+
+    # Job variables for infrastructure
+    job_variables:
+      env:
+        PREFECT_LOGGING_LEVEL: "INFO"
