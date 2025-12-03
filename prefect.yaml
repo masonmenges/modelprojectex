@@ -8,7 +8,7 @@ prefect-version: 3.6.4
 # Pull step - how to get the code
 pull:
   - prefect.deployments.steps.git_clone:
-      repository: https://github.com/yourusername/model_project_ex.git
+      repository: https://github.com/masonmenges/modelprojectex.git
       branch: main
 
 # Build step - any build processes needed
@@ -32,7 +32,7 @@ deployments:
 
     # Work pool configuration
     work_pool:
-      name: default-agent-pool
+      name: local-worker-test
       work_queue_name: default
 
     # Schedule (optional - uncomment to enable)
